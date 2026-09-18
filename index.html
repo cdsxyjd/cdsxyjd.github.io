@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小呆呆的个人主页</title>
+    <style>
+        :root {
+            --bg-1: #fff7ea;
+            --bg-2: #ffe7ef;
+            --bg-3: #eaf8ff;
+            --bg-4: #f3f0ff;
+            --card: rgba(255, 255, 255, 0.8);
+            --card-strong: #fffdfb;
+            --primary: #ff9bb5;
+            --primary-strong: #ff6b8e;
+            --secondary: #8cc8ff;
+            --secondary-strong: #5ca9f7;
+            --text: #4a3c4e;
+            --muted: #7a697d;
+            --line: rgba(255, 133, 172, 0.16);
+            --shadow: 0 18px 45px rgba(255, 146, 178, 0.16);
+            --sun: #ffd76d;
+            --grass: #9fe0a2;
+            --cloud: rgba(255, 255, 255, 0.72);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            background:
+                radial-gradient(circle at 12% 18%, rgba(255, 220, 122, 0.5), transparent 16%),
+                radial-gradient(circle at 85% 12%, rgba(140, 200, 255, 0.45), transparent 18%),
+                radial-gradient(circle at 50% 100%, rgba(180, 245, 180, 0.45), transparent 22%),
+                linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 36%, var(--bg-3) 100%);
+            color: var(--text);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .anime-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(8px);
+            opacity: 0.72;
+            animation: float 12s ease-in-out infinite alternate;
+        }
+
+        .orb-one {
+            width: 220px;
+            height: 220px;
+            top: 80px;
+            left: -30px;
+            background: rgba(255, 214, 109, 0.38);
+        }
+
+        .orb-two {
+            width: 260px;
+            height: 260px;
+            right: -40px;
+            top: 120px;
+            background: rgba(140, 200, 255, 0.28);
+            animation-delay: 1.5s;
+        }
+
+        .orb-three {
+            width: 280px;
+            height: 280px;
+            left: 30%;
+            bottom: -20px;
+            background: rgba(159, 224, 162, 0.3);
+            animation-delay: 3s;
+        }
+
+        .cloud {
+            position: absolute;
+            background: var(--cloud);
+            border-radius: 999px;
+            box-shadow: 30px 10px 0 8px rgba(255, 255, 255, 0.35), 70px 18px 0 12px rgba(255, 255, 255, 0.28);
+            opacity: 0.8;
+            animation: drift 16s linear infinite alternate;
+        }
+
+        .cloud-one {
+            width: 140px;
+            height: 48px;
+            top: 110px;
+            left: 20%;
+        }
+
+        .cloud-two {
+            width: 170px;
+            height: 54px;
+            top: 180px;
+            right: 18%;
+            animation-delay: 2s;
+        }
+
+        .cloud-three {
+            width: 120px;
+            height: 40px;
+            bottom: 160px;
+            left: 10%;
+            animation-delay: 1s;
+        }
+
+        .spark {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+            animation: twinkle 2.5s ease-in-out infinite alternate;
+        }
+
+        .spark-one { top: 18%; left: 18%; }
+        .spark-two { top: 24%; right: 22%; animation-delay: 0.6s; }
+        .spark-three { bottom: 25%; left: 24%; animation-delay: 1.2s; }
+        .spark-four { bottom: 18%; right: 18%; animation-delay: 1.8s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(22px) scale(1.08); }
+        }
+
+        @keyframes drift {
+            0% { transform: translateX(0px); }
+            100% { transform: translateX(30px); }
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .page {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 36px 20px 72px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page::before,
+        .page::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0.26;
+            z-index: -1;
+        }
+
+        .page::before {
+            left: -80px;
+            top: 120px;
+            background: rgba(137, 164, 255, 0.45);
+        }
+
+        .page::after {
+            right: -60px;
+            bottom: 80px;
+            background: rgba(109, 216, 255, 0.4);
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 22px;
+            margin-bottom: 28px;
+            background: rgba(255, 255, 255, 0.66);
+            border: 1px solid rgba(255, 255, 255, 0.86);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            box-shadow: 0 14px 32px rgba(255, 160, 188, 0.14);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            color: var(--text);
+        }
+
+        .brand-mark {
+            width: 28px;
+            height: 28px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            box-shadow: 0 12px 18px rgba(255, 155, 181, 0.28);
+            font-size: 0.8rem;
+        }
+
+        .nav {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--muted);
+            font-weight: 700;
+            transition: color 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: var(--primary-strong);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 28px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .intro,
+        .profile-card,
+        .section-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,249,252,0.76));
+            border: 1px solid rgba(255, 182, 204, 0.3);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(8px);
+        }
+
+        .intro {
+            position: relative;
+            overflow: hidden;
+            padding: 38px 34px;
+        }
+
+        .intro::after {
+            content: "";
+            position: absolute;
+            right: -78px;
+            bottom: -88px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(90, 124, 255, 0.2), rgba(90, 124, 255, 0));
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(255, 204, 214, 0.65), rgba(140, 200, 255, 0.35));
+            border: 1px solid rgba(255, 156, 182, 0.28);
+            color: #8a3f5b;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            position: relative;
+            margin: 18px 0 0;
+            font-size: clamp(2.5rem, 4vw, 4.2rem);
+            line-height: 1.08;
+            letter-spacing: -0.04em;
+        }
+
+        .accent {
+            color: var(--primary);
+        }
+
+        .intro p {
+            position: relative;
+            z-index: 1;
+            max-width: 650px;
+            margin: 18px 0 0;
+            color: var(--muted);
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        .cta-row {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 26px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 160px;
+            padding: 13px 22px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 800;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+            color: #fff;
+            box-shadow: 0 18px 30px rgba(90, 124, 255, 0.26);
+        }
+
+        .btn-secondary {
+            border: 1px solid rgba(29, 36, 51, 0.08);
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--text);
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 26px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .metric {
+            padding: 18px 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(90, 124, 255, 0.08);
+        }
+
+        .metric strong {
+            display: block;
+            font-size: 1.6rem;
+            color: var(--primary-strong);
+            margin-bottom: 6px;
+        }
+
+        .metric span {
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        .profile-card {
+            padding: 22px 22px 18px;
+        }
+
+        .avatar-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 30px;
+            border: 4px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 18px 32px rgba(31, 42, 55, 0.12);
+        }
+
+        .profile-card h2 {
+            margin: 0;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .role {
+            text-align: center;
+            margin: 8px 0 18px;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: rgba(90, 124, 255, 0.04);
+            border: 1px solid rgba(90, 124, 255, 0.08);
+            color: var(--text);
+            font-size: 0.96rem;
+            font-weight: 600;
+        }
+
+        .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), #7db7ff);
+            box-shadow: 0 0 0 6px rgba(90, 124, 255, 0.08);
+            font-size: 0.8rem;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 28px;
+            margin-bottom: 28px;
+        }
+
+        .section-card {
+            padding: 26px 24px;
+        }
+
+        .section-card h3 {
+            margin: 0 0 18px;
+            font-size: 1.42rem;
+            letter-spacing: -0.02em;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 14px;
+            border: 1px solid rgba(255, 155, 181, 0.18);
+            background: linear-gradient(135deg, rgba(255, 196, 209, 0.34), rgba(140, 200, 255, 0.18));
+            border-radius: 999px;
+            color: #8d4662;
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        .timeline {
+            display: grid;
+            gap: 18px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 18px;
+            border-left: 2px solid rgba(90, 124, 255, 0.18);
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -7px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 0 5px rgba(90, 124, 255, 0.12);
+        }
+
+        .timeline-item strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 1rem;
+        }
+
+        .timeline-item span {
+            display: block;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .feature-panel {
+            margin-bottom: 28px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .feature-item {
+            padding: 18px 16px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(90, 124, 255, 0.03));
+            border: 1px solid rgba(90, 124, 255, 0.08);
+        }
+
+        .feature-item .icon {
+            display: inline-flex;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(90, 124, 255, 0.14), rgba(125, 183, 255, 0.12));
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .feature-item h4 {
+            margin: 0 0 8px;
+            font-size: 1.04rem;
+        }
+
+        .feature-item p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 0.92rem;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            margin-top: 8px;
+        }
+
+        .moment-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 16px;
+        }
+
+        .moment-heading h3 {
+            margin-bottom: 8px;
+        }
+
+        .moment-heading p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .moment-summary {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .moment-count {
+            min-width: 118px;
+            padding: 10px 16px;
+            border-radius: 16px;
+            background: rgba(255, 215, 109, 0.22);
+            color: #9b6a16;
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+
+        .moment-count strong {
+            display: inline-block;
+            margin-right: 4px;
+            font-size: 1.6rem;
+            line-height: 1;
+        }
+
+        .moment-date {
+            display: block;
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 0.78rem;
+            white-space: nowrap;
+        }
+
+        .moment-tools {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filter-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            border: 1px solid rgba(90, 124, 255, 0.12);
+            border-radius: 999px;
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.64);
+            color: var(--muted);
+            cursor: pointer;
+            font: inherit;
+            font-size: 0.86rem;
+            font-weight: 800;
+            transition: 0.2s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.is-active {
+            color: #fff;
+            border-color: transparent;
+            background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+            box-shadow: 0 8px 16px rgba(255, 107, 142, 0.18);
+        }
+
+        .moment-note {
+            color: var(--muted);
+            font-size: 0.86rem;
+        }
+
+        .moment-card {
+            position: relative;
+        }
+
+        .moment-card.is-hidden {
+            display: none;
+        }
+
+        .moment-card .project-thumb {
+            position: relative;
+            height: 128px;
+            overflow: hidden;
+        }
+
+        .moment-card .project-thumb-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 48%;
+        }
+
+        .moment-card[data-category="sport"] .project-thumb-image {
+            object-position: center center;
+        }
+
+        .moment-card .project-thumb::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 12px;
+            bottom: 10px;
+            padding: 5px 9px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.76);
+            color: #7b4960;
+            font-size: 0.72rem;
+            font-weight: 800;
+        }
+
+        .moment-card .project-body {
+            min-height: 164px;
+        }
+
+        .moment-card:last-child {
+            grid-column: 1 / -1;
+        }
+
+        .moment-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+            color: var(--primary-strong);
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        .moment-card .project-body p + p {
+            margin-top: 8px;
+        }
+
+        .mood-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            color: #6b6873;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .project-card {
+            overflow: hidden;
+            border-radius: 20px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,248,252,0.88));
+            border: 1px solid rgba(255, 180, 205, 0.22);
+            box-shadow: 0 12px 26px rgba(255, 146, 178, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 30px rgba(90, 124, 255, 0.12);
+        }
+
+        .project-thumb {
+            height: 146px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255, 196, 209, 0.52), rgba(140, 200, 255, 0.35));
+            color: #a13d62;
+            font-size: 2.2rem;
+            font-weight: 800;
+        }
+
+        .project-video {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            background: #1d2433;
+        }
+
+        .project-body {
+            padding: 18px 18px 20px;
+        }
+
+        .project-body h4 {
+            margin: 0 0 10px;
+            font-size: 1.08rem;
+        }
+
+        .project-body p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.8;
+        }
+
+        .contact-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+            padding: 22px 24px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(90, 124, 255, 0.08), rgba(255, 255, 255, 0.9));
+            border: 1px solid rgba(90, 124, 255, 0.12);
+        }
+
+        .contact-box strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 1.1rem;
+        }
+
+        .contact-box span {
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .contact-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .mail-link,
+        .mini-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-weight: 800;
+            border-radius: 12px;
+            padding: 12px 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .mail-link {
+            color: var(--primary-strong);
+            background: rgba(255, 255, 255, 0.86);
+            border: 1px solid rgba(90, 124, 255, 0.14);
+        }
+
+        .mini-btn {
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+            box-shadow: 0 12px 24px rgba(90, 124, 255, 0.18);
+        }
+
+        .mail-link:hover,
+        .mini-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            margin-top: 26px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        @media (max-width: 900px) {
+            .hero,
+            .section-grid,
+            .feature-grid,
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .moment-card:last-child {
+                grid-column: auto;
+            }
+
+            .topbar {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .page {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .intro,
+            .profile-card,
+            .section-card,
+            .contact-box {
+                border-radius: 20px;
+            }
+
+            .intro {
+                padding: 26px 20px;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-row,
+            .contact-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn,
+            .mail-link,
+            .mini-btn {
+                width: 100%;
+            }
+
+            .moment-heading {
+                align-items: start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .moment-summary {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .moment-count {
+                min-width: 0;
+                padding: 9px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="anime-bg" aria-hidden="true">
+        <span class="orb orb-one"></span>
+        <span class="orb orb-two"></span>
+        <span class="orb orb-three"></span>
+        <span class="cloud cloud-one"></span>
+        <span class="cloud cloud-two"></span>
+        <span class="cloud cloud-three"></span>
+        <span class="spark spark-one"></span>
+        <span class="spark spark-two"></span>
+        <span class="spark spark-three"></span>
+        <span class="spark spark-four"></span>
+    </div>
+
+    <div class="page">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-mark">X</span>
+                XIAODAI
+            </div>
+            <nav class="nav">
+                <a href="#about">关于我</a>
+                <a href="#skills">技能</a>
+                <a href="#projects">项目</a>
+                <a href="#contact">联系我</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero" id="about">
+                <div class="intro">
+                    <div class="tag">Available for work</div>
+                    <h1>你好，我是 <span class="accent">小呆呆</span></h1>
+                    <p>
+                        我是 <strong>曲阜师范大学</strong> 的在读学生，平时喜欢玩王者荣耀，热爱打羽毛球。
+                        虽然技术不算太好，但我是真的很爱玩，也愿意在生活里保持一份轻松和热情。
+                    </p>
+                    <div class="cta-row">
+                        <a class="btn btn-primary" href="#projects">看看我</a>
+                        <a class="btn btn-secondary" href="#contact">联系我</a>
+                    </div>
+                </div>
+
+                <aside class="profile-card">
+                    <div class="avatar-wrap">
+                        <img class="avatar" src="https://c-ssl.duitang.com/uploads/item/202006/09/20200609092016_rlksq.jpg" alt="个人头像">
+                    </div>
+                    <h2>小呆呆</h2>
+                    <p class="role">大学生 · 游戏爱好者 · 羽毛球迷</p>
+                    <ul class="info-list">
+                        <li><span class="info-icon">🎓</span> 曲阜师范大学在读</li>
+                        <li><span class="info-icon">🎮</span> 喜欢玩王者荣耀</li>
+                        <li><span class="info-icon">🏸</span> 热爱打羽毛球</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <section class="section-grid">
+                <div class="section-card" id="skills">
+                    <h3>生活标签</h3>
+                    <div class="skill-list">
+                        <span class="skill">王者荣耀</span>
+                        <span class="skill">羽毛球</span>
+                        <span class="skill">大学生活</span>
+                        <span class="skill">爱玩</span>
+                        <span class="skill">轻松过日子</span>
+                        <span class="skill">热爱运动</span>
+                        <span class="skill">有趣灵魂</span>
+                        <span class="skill">随性成长</span>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h3>日常状态</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <strong>平时节奏</strong>
+                            <span>上课、学习、打游戏、打羽毛球，日常虽然简单，但总是充满乐趣。</span>
+                        </div>
+                        <div class="timeline-item">
+                            <strong>生活态度</strong>
+                            <span>虽然技术不算特别厉害，但我喜欢认真享受每一个有趣的瞬间。</span>
+                        </div>
+                        <div class="timeline-item">
+                            <strong>人生信条</strong>
+                            <span>菜也要爱玩，开心最重要，生活嘛，适当放松才更有意思。</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-card feature-panel">
+                <h3>我爱做的事</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">🎮</div>
+                        <h4>打游戏</h4>
+                        <p>王者荣耀是我最常打的游戏，虽然技术菜，但每次开黑都很有动力。</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🏸</div>
+                        <h4>打羽毛球</h4>
+                        <p>挥拍的那一刻，爱好和热情都来了，运动真的让人很舒服。</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🌞</div>
+                        <h4>过日子</h4>
+                        <p>我不是特别会表达，但我很会享受生活，随心一点，活得也挺自在。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-card" id="projects">
+                <div class="moment-heading">
+                    <div>
+                        <h3>日常生活片段</h3>
+                        <p>把普通的一天，收集成值得回看的小瞬间。</p>
+                    </div>
+                    <div class="moment-summary">
+                        <div class="moment-count"><strong id="visibleMoments">4</strong>个片段</div>
+                        <span class="moment-date">记录于 2026 · 春日篇</span>
+                    </div>
+                </div>
+
+                <div class="moment-tools">
+                    <div class="filter-list" aria-label="生活片段分类">
+                        <button class="filter-btn is-active" type="button" data-filter="all">全部</button>
+                        <button class="filter-btn" type="button" data-filter="game">游戏时刻</button>
+                        <button class="filter-btn" type="button" data-filter="sport">运动日常</button>
+                        <button class="filter-btn" type="button" data-filter="campus">校园生活</button>
+                    </div>
+                    <span class="moment-note">按兴趣筛选你的生活记录</span>
+                </div>
+
+                <div class="project-grid" id="momentGrid">
+                    <article class="project-card moment-card" data-category="campus">
+                        <div class="project-thumb" data-label="2025 中秋节">
+                            <img class="project-thumb-image" src="月亮.jpg" alt="曲阜师范大学 2025 年中秋节的月亮">
+                        </div>
+                        <div class="project-body">
+                            <div class="moment-meta"><span>MON · 2025.10.06</span><span>曲师大</span></div>
+                            <h4>曲阜师范大学的中秋月亮</h4>
+                            <p>晚风掠过校园，抬头就是一轮明月。2025 年中秋节，在曲阜师范大学留下这一刻的宁静。</p>
+                            <div class="mood-line">🌙 今日心情：月下团圆</div>
+                        </div>
+                    </article>
+
+                    <article class="project-card moment-card" data-category="game">
+                        <video class="project-video" controls preload="metadata">
+                            <source src="lixin.mp4" type="video/mp4">
+                            当前浏览器不支持视频播放。
+                        </video>
+                        <div class="project-body">
+                            <div class="moment-meta"><span>FRI · 21:30</span><span>游戏</span></div>
+                            <h4>今晚开黑局</h4>
+                            <p>技术不算顶尖，但每次开局都很认真，也经常因为游戏和朋友们一起开开心心。</p>
+                            <div class="mood-line">🎮 今日心情：差一点就赢</div>
+                        </div>
+                    </article>
+
+                    <article class="project-card moment-card" data-category="sport">
+                        <div class="project-thumb" data-label="运动日常">
+                            <img class="project-thumb-image" src="羽毛球.jpg?v=20260918-2" alt="羽毛球拍和羽毛球装备">
+                        </div>
+                        <div class="project-body">
+                            <div class="moment-meta"><span>SAT · 16:40</span><span>运动</span></div>
+                            <h4>球场上的风</h4>
+                            <p>和朋友打了几局羽毛球，输赢先放一边，出完汗之后整个人都轻快了。</p>
+                            <div class="mood-line">⚡ 今日心情：能量满格</div>
+                        </div>
+                    </article>
+
+                    <article class="project-card moment-card" data-category="campus">
+                        <div class="project-body">
+                            <div class="moment-meta"><span>SUN · 19:20</span><span>随笔</span></div>
+                            <h4>给自己留一点空白</h4>
+                            <p>不赶进度的晚上，听歌、发呆，再把下周想做的事情写下来。</p>
+                            <div class="mood-line">🌙 今日心情：自在一点</div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="contact-box" id="contact">
+                <div>
+                    <strong>如果你也喜欢前端和设计，欢迎交流</strong>
+                    <span>我乐于学习、分享与合作，期待与更多优秀伙伴一起成长。</span>
+                </div>
+                <div class="contact-actions">
+                    <a class="mail-link" href="mailto:3965175415@qq.com">3965175415@qq.com</a>
+                </div>
+            </section>
+        </main>
+
+        <footer>© <span id="year"></span> 小呆呆个人主页</footer>
+    </div>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const momentCards = document.querySelectorAll('.moment-card');
+        const visibleMoments = document.getElementById('visibleMoments');
+
+        filterButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const filter = button.dataset.filter;
+                filterButtons.forEach((item) => item.classList.toggle('is-active', item === button));
+                let visibleCount = 0;
+
+                momentCards.forEach((card) => {
+                    const shouldShow = filter === 'all' || card.dataset.category === filter;
+                    card.classList.toggle('is-hidden', !shouldShow);
+                    if (shouldShow) visibleCount += 1;
+                });
+
+                visibleMoments.textContent = visibleCount;
+            });
+        });
+    </script>
+</body>
+</html>
+
